@@ -1,0 +1,27 @@
+<h1>OH</h1>
+<center><table>
+  <thead>
+    <tr>
+      <% days.each do |day| %>
+        <th><%= day['day'] %></th>
+        <% end %>
+    </tr>
+  </thead>
+  <tbody>
+    <% times.each do |time| %>
+      <tr>
+        <% days.each do |day| %>
+        <form action="/slots" method="post">
+          <input type="hidden" name="<%= day['id'] %>">
+          <input type="hidden" name="<%= time['id']%>">
+          <td>
+            <button type="submit">
+              <%= time['time_slot']%>
+            </button>
+          </td>
+        </form>
+        <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table></center>
