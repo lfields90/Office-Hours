@@ -39,7 +39,17 @@ def populate_engineers_table
   end
 end
 
-  # Works db_connection { |conn| conn.exec("SELECT first_name, last_name, password FROM users WHERE id = 1") }
+def days_of_the_week
+   db_connection { |conn| conn.exec("SELECT * FROM days") }
+end
+
+def time_slots
+   db_connection { |conn| conn.exec("SELECT * FROM times") }
+end
+
+def time_slots_timeslots
+   db_connection { |conn| conn.exec("SELECT * FROM time_slots") }
+end
 
 def populate_schedule
   days_of_the_week.each do |day|
@@ -50,35 +60,51 @@ def populate_schedule
   end
 end
 
-def days_of_the_week
-   db_connection { |conn| conn.exec("SELECT * FROM days") }
-end
-
-def time_slots
-   db_connection { |conn| conn.exec("SELECT * FROM times") }
-end
-
-def users
-  first = params[:user_first]
-  last = params[:user_last]
-  password = params[:user_pass]
-  if
-    db_connection { |conn| conn.exec_params("SELECT users(first_name, last_name) VALUES ($1, $2)", [first, last]) }
-  else
-    db_connection { |conn| conn.exec_params("INSERT INTO engineers(first_name, last_name, password) VALUES ($1, $2, $3)", [first, last, password]) }
+def time_slot_available?(day, time)
+  flag = false
+  time_slots_timeslots.each do |time_slot|
+    if time_slot["day_id"] == day["id"] && time_slot["times_id"] == time["id"]
+      if time_slot["user_id"].nil?
+        flag = true
+      end
+    end
   end
+  flag
 end
 
-def engineers
-  first = params[:eng_first]
-  last = params[:eng_name]
-  password = params[:eng_pass]
-  if
-    db_connection { |conn| conn.exec_params("SELECT engineers(first_name, last_name) VALUES ($1, $2, $3)", [first, last]) }
-  else
-    db_connection { |conn| conn.exec_params("INSERT INTO engineers(first_name, last_name, password) VALUES ($1, $2, $3)", [first, last, password]) }
-  end
+def clear_all_tables
+  populate_days_table
+  populate_times_table
+  populate_users_table
+  populate_engineers_table
+  populate_schedule
 end
+clear_all_tables
+
+#Works db_connection { |conn| conn.exec("SELECT first_name, last_name, password FROM users WHERE id = 1") }
+
+#
+# def users
+#   first = params[:user_first]
+#   last = params[:user_last]
+#   password = params[:user_pass]
+#   if
+#     db_connection { |conn| conn.exec_params("SELECT users(first_name, last_name) VALUES ($1, $2)", [first, last]) }
+#   else
+#     db_connection { |conn| conn.exec_params("INSERT INTO engineers(first_name, last_name, password) VALUES ($1, $2, $3)", [first, last, password]) }
+#   end
+# end
+#
+# def engineers
+#   first = params[:eng_first]
+#   last = params[:eng_name]
+#   password = params[:eng_pass]
+#   if
+#     db_connection { |conn| conn.exec_params("SELECT engineers(first_name, last_name) VALUES ($1, $2, $3)", [first, last]) }
+#   else
+#     db_connection { |conn| conn.exec_params("INSERT INTO engineers(first_name, last_name, password) VALUES ($1, $2, $3)", [first, last, password]) }
+#   end
+# end
 
 # def populate_schedule
 #   db_connection { |conn| conn.exec(
@@ -100,23 +126,28 @@ get '/office_hours' do
 end
 
 post '/users' do
-  first = params[:user_first]
-  last = params[:user_last]
-  if
-    db_connection { |conn| conn.exec("SELECT id FROM users WHERE users.first_name = '#{first}' AND users.last_name = '#{last}'") } == 1
-    true
-  else
-    false
-  end
+  # first = params[:user_first]
+  # last = params[:user_last]
+  # if
+  #   db_connection { |conn| conn.exec("SELECT id FROM users WHERE users.first_name = '#{first}' AND users.last_name = '#{last}'") } == 1
+  #   true
+  # else
+  #   false
+  #end
   redirect '/office_hours'
 end
 
 post '/office_hours' do
   user_id = 1
   #wow = params.inspect
-  day_id = 5 #params.keys.first
-  time_id = 4 #params.keys.last
-    db_connection { |conn| conn.exec("INSERT INTO time_slots (user_id) VALUES (#{user_id}) WHERE time_slots.day_id = (#{day_id}) AND time_slots.time_id = (#{time_id})") }
+  day_id = params.keys.first
+  time_id = params.keys.last
+    db_connection { |conn| conn.exec("
+      UPDATE time_slots
+      SET user_id = #{user_id}
+      WHERE day_id = #{day_id}
+      AND times_id = #{time_id}
+      ") }
   redirect '/office_hours'
 end
 

@@ -9,3 +9,7 @@ placeholder {
 body {
   text-align: center;
 }
+
+.taken {
+  background-color: #8791A0;
+}

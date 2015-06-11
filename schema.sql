@@ -32,7 +32,7 @@ CREATE TABLE times (
 CREATE TABLE time_slots (
   id SERIAL PRIMARY KEY,
   day_id INTEGER,
-  times_id VARCHAR(255),
+  times_id INTEGER,
   user_id INTEGER,
   engineer_id INTEGER
 );
