@@ -1,5 +1,9 @@
 
-DROP TABLE users, engineers, days, times, schedule CASCADE;
+DROP TABLE users CASCADE;
+DROP TABLE engineers CASCADE;
+DROP TABLE days CASCADE;
+DROP TABLE times CASCADE;
+DROP TABLE time_slots CASCADE;
 
 CREATE  TABLE users (
   id SERIAL PRIMARY KEY,

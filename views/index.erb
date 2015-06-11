@@ -1,4 +1,4 @@
-<h1>OH</h1>
+<h1>Office Hours</h1>
 <center><table>
   <thead>
     <tr>
@@ -11,15 +11,15 @@
     <% times.each do |time| %>
       <tr>
         <% days.each do |day| %>
-        <form action="/slots" method="post">
+        <td>
+        <form action="/office_hours" method="post">
           <input type="hidden" name="<%= day['id'] %>">
           <input type="hidden" name="<%= time['id']%>">
-          <td>
-            <button type="submit">
-              <%= time['time_slot']%>
-            </button>
-          </td>
+          <button type="submit">
+            <%= time['time_slot']%>
+          </button>
         </form>
+        </td>
         <% end %>
       </tr>
     <% end %>

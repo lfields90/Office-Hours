@@ -11,27 +11,44 @@ def db_connection
   end
 end
 
-  # days = [ 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']
-  # days.each do |day|
-  #   db_connection { |conn| conn.exec("INSERT INTO days(day) VALUES ('#{day}')") }
-  # end
-  #
-  # times = [ '1:00 - 1:20', '1:20 - 1:40', '1:40 - 2:00', '2:00 - 2:20', '2:20 - 2:40', '2:40 - 3:00', '3:00 - 3:20', '3:20 - 3:40', '3:40 - 4:00' ]
-  # times.each do |time|
-  #   db_connection { |conn| conn.exec("INSERT INTO times(time_slot) VALUES ('#{time}')") }
-  # end
-  #
-  # users = [ ['LaMonte', 'Fields', 'Password1']]
-  # users.each do |user|
-  #   db_connection { |conn| conn.exec("INSERT INTO users(first_name, last_name, password) VALUES ('#{user[0]}', '#{user[1]}', '#{user[2]}')") }
-  # end
-  #
-  # engineers = [ ['Alex', 'Jarvis', 'AsBucknuttyAsIWannaBe'], ]
-  # engineers.each do |ee|
-  #   db_connection { |conn| conn.exec("INSERT INTO engineers(first_name, last_name, password) VALUES ('#{ee[0]}', '#{ee[1]}', '#{ee[2]}')") }
-  # end
+def populate_days_table
+  days = [ 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']
+  days.each do |day|
+    db_connection { |conn| conn.exec("INSERT INTO days(day) VALUES ('#{day}')") }
+  end
+end
+
+def populate_times_table
+  times = [ '1:00 - 1:20', '1:20 - 1:40', '1:40 - 2:00', '2:00 - 2:20', '2:20 - 2:40', '2:40 - 3:00' ]
+  times.each do |time|
+    db_connection { |conn| conn.exec("INSERT INTO times(time_slot) VALUES ('#{time}')") }
+  end
+end
+
+def populate_users_table
+  users = [ ['LaMonte', 'Fields', 'Password1']]
+  users.each do |user|
+    db_connection { |conn| conn.exec("INSERT INTO users(first_name, last_name, password) VALUES ('#{user[0]}', '#{user[1]}', '#{user[2]}')") }
+  end
+end
+
+def populate_engineers_table
+  engineers = [ ['Alex', 'Jarvis', 'AsBucknuttyAsIWannaBe'], ]
+  engineers.each do |ee|
+    db_connection { |conn| conn.exec("INSERT INTO engineers(first_name, last_name, password) VALUES ('#{ee[0]}', '#{ee[1]}', '#{ee[2]}')") }
+  end
+end
 
   # Works db_connection { |conn| conn.exec("SELECT first_name, last_name, password FROM users WHERE id = 1") }
+
+def populate_schedule
+  days_of_the_week.each do |day|
+    time_slots.each do |time|
+      db_connection { |conn| conn.exec(
+        "INSERT INTO time_slots (day_id, times_id) VALUES (#{day['id']}, #{time['id']})") }
+    end
+  end
+end
 
 def days_of_the_week
    db_connection { |conn| conn.exec("SELECT * FROM days") }
@@ -63,12 +80,12 @@ def engineers
   end
 end
 
-def populate_schedule
-  db_connection { |conn| conn.exec(
-    "INSERT INTO time_slots (day_id, times_id)
-    JOIN days ON time_slots.day_id = days.id
-    JOIN times ON time_slots.time_id = times.id") }
-end
+# def populate_schedule
+#   db_connection { |conn| conn.exec(
+#     "SELECT days (day_id, times_id)
+#     JOIN days ON time_slots.day_id = days.id
+#     JOIN times ON time_slots.time_id = times.id") }
+# end
 
 get '/' do
   redirect '/sign_up'
@@ -79,7 +96,6 @@ get '/sign_up' do
 end
 
 get '/office_hours' do
-  #The name of the form tabs in this form is the day of the week followed by the time slot EX. name="Monday 1:00 - 1:20"
   erb :index, locals: { days: days_of_the_week, times: time_slots}
 end
 
@@ -95,16 +111,12 @@ post '/users' do
   redirect '/office_hours'
 end
 
-post '/slots' do
-  #binding.pry
-  first = params[:user_first]
-  last = params[:user_last]
-  if
-    db_connection { |conn| conn.exec("INSERT INTO first_name, last_name FROM users WHERE users.first_name = #{first} AND users.last_name = #{last}") }
-    true
-  else
-    false
-  end
+post '/office_hours' do
+  user_id = 1
+  #wow = params.inspect
+  day_id = 5 #params.keys.first
+  time_id = 4 #params.keys.last
+    db_connection { |conn| conn.exec("INSERT INTO time_slots (user_id) VALUES (#{user_id}) WHERE time_slots.day_id = (#{day_id}) AND time_slots.time_id = (#{time_id})") }
   redirect '/office_hours'
 end
 
