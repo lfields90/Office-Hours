@@ -47,6 +47,10 @@ def users
    db_connection { |conn| conn.exec("SELECT * FROM users") }
 end
 
+def engineers
+   db_connection { |conn| conn.exec("SELECT * FROM engineers") }
+end
+
 def days_of_the_week
    db_connection { |conn| conn.exec("SELECT * FROM days") }
 end
@@ -156,7 +160,6 @@ end
 
 post '/users' do
   first = params[:user_first]
-  last = params[:user_last]
   pass = params[:user_pass]
   if
     user_exists?(first, pass)
