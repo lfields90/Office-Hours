@@ -182,6 +182,7 @@ end
 post '/engineers' do
   first = params[:eng_first]
   pass = params[:eng_pass]
+  binding.pry
   if
     eng_exists?(first, pass)
     redirect '/office_hours'
