@@ -103,6 +103,16 @@ def user_exists?(first, pass)
   flag
 end
 
+def eng_exists?(first, pass)
+  flag = false
+  engineers.each do |eng|
+    if eng['first_name'] == first && eng['password'] == pass
+      flag = true
+    end
+  end
+  flag
+end
+
 def clear_all_tables
   populate_days_table
   populate_times_table
@@ -163,6 +173,17 @@ post '/users' do
   pass = params[:user_pass]
   if
     user_exists?(first, pass)
+    redirect '/office_hours'
+  else
+    redirect '/sign_up'
+  end
+end
+
+post '/engineers' do
+  first = params[:eng_first]
+  pass = params[:eng_pass]
+  if
+    eng_exists?(first, pass)
     redirect '/office_hours'
   else
     redirect '/sign_up'
