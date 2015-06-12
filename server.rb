@@ -39,21 +39,25 @@ def populate_engineers_table
   end
 end
 
+def times
+   db_connection { |conn| conn.exec("SELECT * FROM times") }
+end
+
+def users
+   db_connection { |conn| conn.exec("SELECT * FROM users") }
+end
+
 def days_of_the_week
    db_connection { |conn| conn.exec("SELECT * FROM days") }
 end
 
 def time_slots
-   db_connection { |conn| conn.exec("SELECT * FROM times") }
-end
-
-def time_slots_timeslots
    db_connection { |conn| conn.exec("SELECT * FROM time_slots") }
 end
 
 def populate_schedule
   days_of_the_week.each do |day|
-    time_slots.each do |time|
+    times.each do |time|
       db_connection { |conn| conn.exec(
         "INSERT INTO time_slots (day_id, times_id) VALUES (#{day['id']}, #{time['id']})") }
     end
@@ -62,11 +66,34 @@ end
 
 def time_slot_available?(day, time)
   flag = false
-  time_slots_timeslots.each do |time_slot|
+  time_slots.each do |time_slot|
     if time_slot["day_id"] == day["id"] && time_slot["times_id"] == time["id"]
       if time_slot["user_id"].nil?
         flag = true
       end
+    end
+  end
+  flag
+end
+
+def select_user(day, time)
+  user_id = 0
+  string = ""
+  time_slots.each do |time_slot|
+    if time_slot["day_id"] == day["id"] && time_slot["times_id"] == time["id"]
+      user_id += time_slot['user_id'].to_i
+        name = db_connection { |conn| conn.exec("SELECT * FROM users WHERE id = #{user_id}") }
+        string += "#{name.first['first_name']}" #{name.first['last_name'][0]}. "
+    end
+  end
+  string
+end
+
+def user_exists?(first, pass)
+  flag = false
+  users.each do |user|
+    if user['first_name'] == first && user['password'] == pass
+      flag = true
     end
   end
   flag
@@ -79,8 +106,6 @@ def clear_all_tables
   populate_engineers_table
   populate_schedule
 end
-clear_all_tables
-
 #Works db_connection { |conn| conn.exec("SELECT first_name, last_name, password FROM users WHERE id = 1") }
 
 #
@@ -114,27 +139,31 @@ clear_all_tables
 # end
 
 get '/' do
-  redirect '/sign_up'
+  redirect '/sign_in'
+end
+
+get '/sign_in' do
+  erb :sign_in
+end
+
+get '/office_hours' do
+  erb :index, locals: { days: days_of_the_week, times: times}
 end
 
 get '/sign_up' do
   erb :sign_up
 end
 
-get '/office_hours' do
-  erb :index, locals: { days: days_of_the_week, times: time_slots}
-end
-
 post '/users' do
-  # first = params[:user_first]
-  # last = params[:user_last]
-  # if
-  #   db_connection { |conn| conn.exec("SELECT id FROM users WHERE users.first_name = '#{first}' AND users.last_name = '#{last}'") } == 1
-  #   true
-  # else
-  #   false
-  #end
-  redirect '/office_hours'
+  first = params[:user_first]
+  last = params[:user_last]
+  pass = params[:user_pass]
+  if
+    user_exists?(first, pass)
+    redirect '/office_hours'
+  else
+    redirect '/sign_up'
+  end
 end
 
 post '/office_hours' do

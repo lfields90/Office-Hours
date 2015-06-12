@@ -13,8 +13,8 @@
         <% days.each do |day| %>
           <% if !time_slot_available?(day, time) %>
             <td>
-              <button class="taken" type="text">
-                Taken
+              <button class="button round" class="taken" type="text">
+                <%= select_user(day, time) %>
               </button>
             </td>
           <% else %>
@@ -22,7 +22,7 @@
               <form action="/office_hours" method="post">
                 <input type="hidden" name="<%= day['id'] %>">
                 <input type="hidden" name="<%= time['id']%>">
-                <button type="submit">
+                <button class="button round" type="submit">
                   <%= time['time_slot']%>
                 </button>
               </form>

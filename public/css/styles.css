@@ -1,0 +1,43 @@
+placeholder {
+  text-align: center;
+}
+
+.button {
+  height:;
+}
+
+th {
+  text-align: center;
+}
+
+h1 {
+  text-shadow: 3px 2px #d7ceb2;
+  font: 70px 'BazarMedium';
+}
+
+h3 {
+  text-shadow: 2px 2px #d7ceb2;
+  font: 40px 'BazarMedium';
+}
+body {
+  text-align: center;
+  background-image: url("../img/tech-wooden-desk_unsplash.jpeg");
+  background-size: 100% 100%;
+  background-attachment: fixed;
+  font: 100px 'BazarMedium';
+  background-size: cover;
+}
+
+table {
+	opacity: .85;
+}
+
+.taken {
+  background-color: white;
+}
+
+.button {
+  background-color: black;
+  color: #d7ceb2;
+  width:142px;
+}
