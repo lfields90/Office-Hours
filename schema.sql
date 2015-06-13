@@ -7,6 +7,7 @@ DROP TABLE time_slots CASCADE;
 
 CREATE  TABLE users (
   id SERIAL PRIMARY KEY,
+  user_name VARCHAR(255),
   first_name VARCHAR(255),
   last_name VARCHAR(255),
   password VARCHAR(255)
@@ -14,6 +15,7 @@ CREATE  TABLE users (
 
 CREATE TABLE engineers (
   id SERIAL PRIMARY KEY,
+  user_name VARCHAR(255),
   first_name VARCHAR(255),
   last_name VARCHAR(255),
   password VARCHAR(255)

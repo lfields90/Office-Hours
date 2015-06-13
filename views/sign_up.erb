@@ -1,0 +1,47 @@
+  <h1>Sign Up</h1>
+    <table>
+      <thead>
+        <h3>Users</h3>
+      </thead>
+      <tbody>
+        <form action="/users/sign_up" method="post">
+        <tr>
+          <td><input type="text" name="user_first" placeholder="First Name:"/></td>
+          <td><input type="text" name="user_last" placeholder="Last Name:"/></td>
+        </tr>
+        <tr>
+          <td><input type="text" name="user_name" placeholder="User Name:"/></td>
+          <td><input type="text" name="user_pass" placeholder="Password:"/></td>
+        </tr>
+      </tbody>
+    </table>
+    <button class="button round" type="submit">
+      Sign Up
+    </button>
+    <button class="button round">
+      <a href="/sign_in">Sign In</a>
+    </button>
+    </form>
+    <table>
+      <thead>
+        <h3>Engineers</h3>
+        </thead>
+        <tbody>
+          <form action="/engineers/sign_up" method="post">
+          <tr>
+            <td><input type="text" name="eng_first" placeholder="First Name:"/></td>
+            <td><input type="text" name="eng_last" placeholder="Last Name:"/></td>
+          </tr>
+          <tr>
+            <td><input type="text" name="eng_name" placeholder="User Name:"/></td>
+            <td><input type="text" name="eng_pass" placeholder="Password:"/></td>
+          </tr>
+        </tbody>
+      </table>
+      <button class="button round" type="submit">
+        Sign Up
+      </button>
+      <button class="button round">
+        <a href="/sign_in">Sign In</a>
+      </button>
+    </form>

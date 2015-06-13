@@ -3,43 +3,45 @@
       <thead>
         <h3>Users</h3>
         <tr>
-          <th>First Name:</th>
-          <th>Last Name:</th>
+          <th>User:</th>
           <th>Password:</th>
         </tr>
       </thead>
       <tbody>
-        <form action="/users" method="post">
+        <form action="/users/sign_in" method="post">
         <tr>
-          <td><input type="text" name="user_first" value=""/></td>
-          <td><input type="text" name="user_last" value=""/></td>
+          <td><input type="text" name="user_name" value=""/></td>
           <td><input type="text" name="user_pass" value=""/></td>
         </tr>
       </tbody>
     </table>
     <button class="button round" type="submit">
-      Submit
+      Sign In
+    </button>
+    <button class="button round">
+      <a href="/sign_up">Sign Up</a>
     </button>
     </form>
     <table>
       <thead>
         <h3>Engineers</h3>
           <tr>
-            <th>First Name:</th>
-            <th>Last Name:</th>
+            <th>User:</th>
             <th>Password:</th>
           </tr>
         </thead>
         <tbody>
-          <form action="/engineers" method="post">
+          <form action="/engineers/sign_in" method="post">
           <tr>
-            <td><input type="text" name="eng_first" value=""/></td>
-            <td><input type="text" name="eng_last" value=""/></td>
+            <td><input type="text" name="eng_name" value=""/></td>
             <td><input type="text" name="eng_pass" value=""/></td>
           </tr>
         </tbody>
       </table>
       <button class="button round" type="submit">
-        Submit
+        Sign In
+      </button>
+      <button class="button round">
+        <a href="/sign_up">Sign Up</a>
       </button>
     </form>

@@ -2,6 +2,10 @@ require 'sinatra'
 require 'pry'
 require 'pg'
 
+use Rack::Session::Cookie, {
+  secret: "officer_of_office_hours"
+}
+
 def db_connection
   begin
     connection = PG.connect(dbname: "office_hours")
@@ -26,16 +30,16 @@ def populate_times_table
 end
 
 def populate_users_table
-  users = [ ['LaMonte', 'Fields', 'Password1']]
+  users = [ ['Twelvy', 'LaMonte', 'Fields', 'Password1']]
   users.each do |user|
-    db_connection { |conn| conn.exec("INSERT INTO users(first_name, last_name, password) VALUES ('#{user[0]}', '#{user[1]}', '#{user[2]}')") }
+    db_connection { |conn| conn.exec("INSERT INTO users(user_name, first_name, last_name, password) VALUES ('#{user[0]}', '#{user[1]}', '#{user[2]}', '#{user[3]}')") }
   end
 end
 
 def populate_engineers_table
-  engineers = [ ['Alex', 'Jarvis', 'AsBucknuttyAsIWannaBe'], ]
+  engineers = [ ['Bucknutty', 'Alex', 'Jarvis', 'AsBucknuttyAsIWannaBe'], ]
   engineers.each do |ee|
-    db_connection { |conn| conn.exec("INSERT INTO engineers(first_name, last_name, password) VALUES ('#{ee[0]}', '#{ee[1]}', '#{ee[2]}')") }
+    db_connection { |conn| conn.exec("INSERT INTO engineers(user_name, first_name, last_name, password) VALUES ('#{ee[0]}', '#{ee[1]}', '#{ee[2]}', '#{ee[3]}')") }
   end
 end
 
@@ -86,27 +90,48 @@ def select_user(day, time)
   time_slots.each do |time_slot|
     if time_slot["day_id"] == day["id"] && time_slot["times_id"] == time["id"]
       user_id += time_slot['user_id'].to_i
-        name = db_connection { |conn| conn.exec("SELECT * FROM users WHERE id = #{user_id}") }
-        string += "#{name.first['first_name']}" #{name.first['last_name'][0]}. "
+        name = db_connection { |conn| conn.exec("SELECT first_name FROM users WHERE id = #{user_id}") }.to_a[0]
+        string += "#{name['first_name']}"
     end
   end
   string
 end
 
-def user_exists?(first, pass)
+def this_is_your_slot(user, day, time)
+  time_slots.each do |time_slot|
+    if time_slot["day_id"] == day && time_slot["times_id"] == time
+      if time_slot["user_id"].to_i == user
+        return true
+      else
+        return false
+      end
+    end
+  end
+end
+
+def user_signed_up?(id)
+  time_slots.each do |time_slot|
+    if time_slot["user_id"].to_i == id
+      return true
+    end
+  end
+  false
+end
+
+def user_exists?(user_name, pass)
   flag = false
   users.each do |user|
-    if user['first_name'] == first && user['password'] == pass
+    if user['user_name'] == user_name && user['password'] == pass
       flag = true
     end
   end
   flag
 end
 
-def eng_exists?(first, pass)
+def eng_exists?(user_name, pass)
   flag = false
   engineers.each do |eng|
-    if eng['first_name'] == first && eng['password'] == pass
+    if eng['user_name'] == user_name && eng['password'] == pass
       flag = true
     end
   end
@@ -120,40 +145,12 @@ def clear_all_tables
   populate_engineers_table
   populate_schedule
 end
+
 #Works db_connection { |conn| conn.exec("SELECT first_name, last_name, password FROM users WHERE id = 1") }
-
-#
-# def users
-#   first = params[:user_first]
-#   last = params[:user_last]
-#   password = params[:user_pass]
-#   if
-#     db_connection { |conn| conn.exec_params("SELECT users(first_name, last_name) VALUES ($1, $2)", [first, last]) }
-#   else
-#     db_connection { |conn| conn.exec_params("INSERT INTO engineers(first_name, last_name, password) VALUES ($1, $2, $3)", [first, last, password]) }
-#   end
-# end
-#
-# def engineers
-#   first = params[:eng_first]
-#   last = params[:eng_name]
-#   password = params[:eng_pass]
-#   if
-#     db_connection { |conn| conn.exec_params("SELECT engineers(first_name, last_name) VALUES ($1, $2, $3)", [first, last]) }
-#   else
-#     db_connection { |conn| conn.exec_params("INSERT INTO engineers(first_name, last_name, password) VALUES ($1, $2, $3)", [first, last, password]) }
-#   end
-# end
-
-# def populate_schedule
-#   db_connection { |conn| conn.exec(
-#     "SELECT days (day_id, times_id)
-#     JOIN days ON time_slots.day_id = days.id
-#     JOIN times ON time_slots.time_id = times.id") }
-# end
 
 get '/' do
   redirect '/sign_in'
+  erb :landing
 end
 
 get '/sign_in' do
@@ -168,46 +165,95 @@ get '/sign_up' do
   erb :sign_up
 end
 
-post '/users' do
-  first = params[:user_first]
+post '/users/sign_in' do
+  user_name = params[:user_name]
   pass = params[:user_pass]
-  if
-    user_exists?(first, pass)
+  if user_exists?(user_name, pass)
+    me = db_connection { |conn| conn.exec("SELECT id FROM users WHERE user_name = '#{user_name}'") }
+    session[:user_id] = me[0]['id'].to_i
     redirect '/office_hours'
   else
     redirect '/sign_up'
   end
 end
 
-post '/engineers' do
-  first = params[:eng_first]
+post '/users/sign_up' do
+  first = params[:user_first]
+  last = params[:user_last]
+  user_name = params[:user_name]
+  pass = params[:user_pass]
+  if
+    user_exists?(user_name, pass)
+  else
+    db_connection { |conn| conn.exec("
+      INSERT INTO users(user_name, first_name, last_name, password)
+      VALUES ($1, $2, $3, $4)",
+      [user_name, first, last, pass]) }
+  end
+  redirect '/sign_in'
+end
+
+post '/engineers/sign_in' do
+  user_name = params[:eng_name]
   pass = params[:eng_pass]
   binding.pry
   if
-    eng_exists?(first, pass)
+    eng_exists?(user_name, pass)
     redirect '/office_hours'
   else
     redirect '/sign_up'
+  end
+end
+
+post '/engineers/sign_up' do
+  first = params[:eng_first]
+  last = params[:eng_last]
+  user_name = params[:eng_name]
+  pass = params[:eng_pass]
+  if
+    user_exists?(user_name, pass)
+    redirect '/sign_in'
+  else
+    db_connection { |conn| conn.exec("
+      INSERT INTO engineers(user_name, first_name, last_name, password)
+      VALUES ($1, $2, $3, $4)",
+      [user_name, first, last, pass]) }
   end
 end
 
 post '/office_hours' do
-  user_id = 1
-  #wow = params.inspect
+  user_id = session[:user_id]
   day_id = params.keys.first
   time_id = params.keys.last
+   unless user_signed_up?(user_id)
     db_connection { |conn| conn.exec("
       UPDATE time_slots
       SET user_id = #{user_id}
       WHERE day_id = #{day_id}
       AND times_id = #{time_id}
       ") }
+   end
   redirect '/office_hours'
 end
 
-=begin
-add slots
-interate throught the slots so that the populate correctly
-get user id  from the  session data
-and then update the slot with the user id
-=end
+post '/deselect' do
+  user_id = session[:user_id]
+  day_id = params.keys.first
+  time_id = params.keys.last
+
+  if this_is_your_slot(user_id, day_id, time_id)
+    db_connection { |conn| conn.exec("
+      UPDATE time_slots
+      SET user_id = NULL
+      WHERE day_id = #{day_id}
+      AND times_id = #{time_id}
+      ") }
+    else
+  end
+  redirect '/office_hours'
+end
+
+post '/logout' do
+  session[:user_id] = nil
+  redirect '/sign_in'
+end
