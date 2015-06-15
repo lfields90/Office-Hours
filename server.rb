@@ -11,7 +11,7 @@ end
 
 def db_connection
   begin
-    connection = PG.connect(dbname: "office_hours")
+    connection = PG.connect(settings.db_config)
     yield(connection)
   ensure
     connection.close
@@ -156,8 +156,8 @@ get '/' do
   erb :landing
 end
 
-get '/sign_in' do
-  erb :sign_in
+get '/log_in' do
+  erb :log_in
 end
 
 get '/office_hours' do
@@ -168,7 +168,7 @@ get '/sign_up' do
   erb :sign_up
 end
 
-post '/users/sign_in' do
+post '/users/log_in' do
   user_name = params[:user_name]
   pass = params[:user_pass]
   if user_exists?(user_name, pass)
@@ -193,10 +193,10 @@ post '/users/sign_up' do
       VALUES ($1, $2, $3, $4)",
       [user_name, first, last, pass]) }
   end
-  redirect '/sign_in'
+  redirect '/log_in'
 end
 
-post '/engineers/sign_in' do
+post '/engineers/log_in' do
   user_name = params[:eng_name]
   pass = params[:eng_pass]
   binding.pry
@@ -215,7 +215,7 @@ post '/engineers/sign_up' do
   pass = params[:eng_pass]
   if
     user_exists?(user_name, pass)
-    redirect '/sign_in'
+    redirect '/log_in'
   else
     db_connection { |conn| conn.exec("
       INSERT INTO engineers(user_name, first_name, last_name, password)
