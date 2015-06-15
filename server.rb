@@ -43,20 +43,6 @@ def populate_times_table
   end
 end
 
-def populate_users_table
-  users = [ ['Twelvy', 'LaMonte', 'Fields', 'Password1']]
-  users.each do |user|
-    db_connection { |conn| conn.exec("INSERT INTO users(user_name, first_name, last_name, password) VALUES ('#{user[0]}', '#{user[1]}', '#{user[2]}', '#{user[3]}')") }
-  end
-end
-
-def populate_engineers_table
-  engineers = [ ['Bucknutty', 'Alex', 'Jarvis', 'AsBucknuttyAsIWannaBe'], ]
-  engineers.each do |ee|
-    db_connection { |conn| conn.exec("INSERT INTO engineers(user_name, first_name, last_name, password) VALUES ('#{ee[0]}', '#{ee[1]}', '#{ee[2]}', '#{ee[3]}')") }
-  end
-end
-
 def times
    db_connection { |conn| conn.exec("SELECT * FROM times") }
 end
