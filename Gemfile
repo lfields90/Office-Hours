@@ -9,7 +9,7 @@ gem 'omniauth-launch-pass'
 group :test, :development do
   gem 'pry'
   gem 'capybara'
-  gem 'rpsec'
+  gem 'rspec'
   gem 'launchy'
   gem 'faker'
 end
