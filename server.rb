@@ -149,7 +149,7 @@ end
 #Works db_connection { |conn| conn.exec("SELECT first_name, last_name, password FROM users WHERE id = 1") }
 
 get '/' do
-  redirect '/sign_in'
+
   erb :landing
 end
 

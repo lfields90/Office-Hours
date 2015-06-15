@@ -42,3 +42,7 @@ a {
   text-decoration: none;
   color: #d7ceb2;
 }
+
+.name {
+  text-shadow: none;
+}
