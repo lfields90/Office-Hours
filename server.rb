@@ -1,6 +1,6 @@
 require 'sinatra'
 require 'pg'
-
+require 'pry'
 use Rack::Session::Cookie, {
   secret: "officer_of_office_hours"
 }
@@ -141,15 +141,12 @@ end
 def clear_all_tables
   populate_days_table
   populate_times_table
-  populate_users_table
-  populate_engineers_table
   populate_schedule
 end
 
 #Works db_connection { |conn| conn.exec("SELECT first_name, last_name, password FROM users WHERE id = 1") }
 
 get '/' do
-
   erb :landing
 end
 
@@ -225,6 +222,7 @@ post '/office_hours' do
   user_id = session[:user_id]
   day_id = params.keys.first
   time_id = params.keys.last
+  redirect '/log_in' if session[:user_id] = nil
    unless user_signed_up?(user_id)
     db_connection { |conn| conn.exec("
       UPDATE time_slots
@@ -255,5 +253,4 @@ end
 
 post '/logout' do
   session[:user_id] = nil
-  redirect '/sign_in'
 end
