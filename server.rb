@@ -147,7 +147,7 @@ end
 #Works db_connection { |conn| conn.exec("SELECT first_name, last_name, password FROM users WHERE id = 1") }
 
 get '/' do
-  erb :landing
+  erb :log_in
 end
 
 get '/log_in' do
@@ -160,6 +160,10 @@ end
 
 get '/sign_up' do
   erb :sign_up
+end
+
+get '/admin/landing/temp'
+  erb :landing
 end
 
 post '/users/log_in' do
