@@ -162,7 +162,7 @@ get '/sign_up' do
   erb :sign_up
 end
 
-get '/admin/landing/temp'
+get '/admin/landing/temp' do
   erb :landing
 end
 
