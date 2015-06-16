@@ -1,11 +1,11 @@
 require 'sinatra'
 require 'pg'
-require 'pry'
 use Rack::Session::Cookie, {
   secret: "officer_of_office_hours"
 }
 
 configure :development do
+  require 'pry'
   set :db_config, { dbname: "office_hours" }
 end
 

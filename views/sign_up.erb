@@ -6,12 +6,12 @@
       <tbody>
         <form action="/users/sign_up" method="post">
         <tr>
-          <td><input type="text" name="user_first" placeholder="First Name:"/></td>
-          <td><input type="text" name="user_last" placeholder="Last Name:"/></td>
+          <td><input type="text" name="user_first" placeholder="First Name:" required/></td>
+          <td><input type="text" name="user_last" placeholder="Last Name:" required/></td>
         </tr>
         <tr>
-          <td><input type="text" name="user_name" placeholder="User Name:"/></td>
-          <td><input type="text" name="user_pass" placeholder="Password:"/></td>
+          <td><input type="text" name="user_name" placeholder="User Name:" required/></td>
+          <td><input type="text" name="user_pass" placeholder="Password:" required/></td>
         </tr>
       </tbody>
     </table>
@@ -29,12 +29,12 @@
         <tbody>
           <form action="/engineers/sign_up" method="post">
           <tr>
-            <td><input type="text" name="eng_first" placeholder="First Name:"/></td>
-            <td><input type="text" name="eng_last" placeholder="Last Name:"/></td>
+            <td><input type="text" name="eng_first" placeholder="First Name:" required/></td>
+            <td><input type="text" name="eng_last" placeholder="Last Name:" required/></td>
           </tr>
           <tr>
-            <td><input type="text" name="eng_name" placeholder="User Name:"/></td>
-            <td><input type="text" name="eng_pass" placeholder="Password:"/></td>
+            <td><input type="text" name="eng_name" placeholder="User Name:" required/></td>
+            <td><input type="text" name="eng_pass" placeholder="Password:" required/></td>
           </tr>
         </tbody>
       </table>
