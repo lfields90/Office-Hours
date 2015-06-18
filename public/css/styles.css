@@ -13,6 +13,12 @@ h3 {
   text-shadow: 2px 2px #d7ceb2;
   font: 40px 'Quicksand';
 }
+
+h4 {
+  font: 'Quicksand';
+  color: white;
+}
+
 body {
   text-align: center;
   background-image: url("../img/w-b-office_unsplash.jpeg");
