@@ -1,25 +1,27 @@
 require "spec_helper"
 # The application should satisfy the following user stories:
 
-feature "user looks at a meetup", %(
+feature "user can log in", %(
   As a user
-  I want to view the details of a meetup
-  So that I can learn more about its purpose
+  I want to log in to office hours
 
   Acceptance Criteria:
-  [X] I should see the name of the meetup.
-  [X] I should see a description of the meetup.
-  [X] I should see where the meetup is located.
+  [X] I should see the login page.
+  [X] I should be able to fill out a form to log in.
+  [X] I should be able to submit the form and go to office hours.
   ) do
 
-  pending
+  scenario "" do
+    visit '/log_in'
+    expect(page).to have_content("Log In")
+  end
 
 end
 
-feature "user views all available meetups", %(
+feature "user can sign up for office hours", %(
   As a user
-  I want to view a list of all available meetups
-  So that I can get together with people with similar interests
+  I want to be able to sign up for office hours
+  So that I can get help from EE's
 
   Acceptance Criteria:
   [X] Meetups should be listed alphabetically.

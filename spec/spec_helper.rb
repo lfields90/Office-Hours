@@ -1,7 +1,7 @@
 require 'rspec'
 require 'capybara/rspec'
 
-require_relative '../app.rb'
+require_relative '../server.rb'
 
 set :environment, :test
 
