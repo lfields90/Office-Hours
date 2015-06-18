@@ -60,7 +60,7 @@ a {
 }
 
 .header_space {
-  margin-bottom: 40px;
+  margin-top: 20px;
 }
 
 .top-bar {
@@ -76,18 +76,20 @@ a {
   font: 10px;
 }
 
+.centered-content {
+  position: relative;
+  margin-top: 15%;
+}
+
 img {
   height: 50px;
   margin-top: 4px;
   margin-left: 2px;
 }
 
-.centered-content {
-  position: relative;
-  top: 15%;
-  border: 2px, dashed, black;
+#oh_table {
+  margin-top: 10%;
 }
-
 table tr th, table tr td {
   text-align: center;
 }

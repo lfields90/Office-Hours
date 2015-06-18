@@ -27,7 +27,9 @@ feature "user can sign up for office hours", %(
 
   Acceptance Criteria:
   [X] I should see the Sign Up page in the navigation bar.
-  [X] I should be able to click on the sign up link
+  [X] I should be able to click on the sign up link.
+  [X] I should be able to fill out a form to sign up.
+  [X] Once signed up it should redirect me to the log in page.
   [X] I should be able to fill out a form to log in.
   [X] I should be able to submit the form and go to office hours.
   ) do

@@ -166,7 +166,6 @@ require 'pg'
     populate_schedule
   end
 
-
   get '/' do
     redirect '/log_in'
   end

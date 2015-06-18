@@ -12,6 +12,7 @@
     <script src="/js/vendor/modernizr.js"></script>
   </head>
   <body>
+  <div class="fixed">
     <nav class="top-bar" data-topbar role="navigation" data-options="dropdown_autoclose: false">
       <ul class="title-area">
         <li class="name">
@@ -33,14 +34,17 @@
           <li class="has-dropdown">
             <a href="#" data-dropdown="drop1">Menu</a>
             <ul class="dropdown">
-              <li><a href="https://www.google.com" target="_blank">Google</a></li>
               <li><a href="http://launchpairpal.herokuapp.com/" target="_blank">Pair Pals</a></li>
             </ul>
           </li>
         </ul>
       </section>
     </nav>
-    <%= yield %>
+  </div>
+
+    <div class="container">
+      <%= yield %>
+    </div>
     <script src="/js/vendor/jquery.js"></script>
     <script src="/js/vendor/fastclick.js"></script>
     <script src="/js/foundation.min.js"></script>
