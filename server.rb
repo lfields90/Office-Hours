@@ -155,6 +155,11 @@ require 'pg'
     end
   end
 
+  def current_user
+    id = session[:user_id]
+    db_connection { |conn| conn.exec("SELECT first_name FROM users WHERE id = #{id}") }.to_a[0]['first_name']
+  end
+
   def clear_all_tables
     populate_days_table
     populate_times_table
@@ -274,7 +279,7 @@ require 'pg'
     redirect '/office_hours'
   end
 
-  post '/logout' do
+  get '/logout' do
     session[:user_id] = nil
     redirect '/'
   end

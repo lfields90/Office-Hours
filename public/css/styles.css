@@ -52,3 +52,34 @@ a {
 .name {
   text-shadow: none;
 }
+
+#signed-in {
+  margin-top: 17px;
+  color: white;
+  margin-right: 10px;
+}
+
+.top-bar {
+  height: 60px;
+}
+
+.top-bar-section li:not(.has-form) a:not(.button) {
+  line-height: 60px;
+}
+
+.top-bar-section ul li>a {
+  font-family: 'Quicksand', sans-serif;
+  font: 10px;
+}
+
+img {
+  height: 50px;
+  margin-top: 4px;
+  margin-left: 2px;
+}
+
+.centered-content {
+  position: relative;
+  top: 15%;
+  border: 2px, dashed, black;
+}
