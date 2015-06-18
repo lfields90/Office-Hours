@@ -5,6 +5,9 @@ gem 'sinatra'
 gem 'pg'
 gem 'rake'
 gem 'omniauth-launch-pass'
+gem 'omniauth-github'
+gem 'sinatra-flash'
+gem 'sinatra-activerecord'
 
 group :test, :development do
   gem 'pry'
