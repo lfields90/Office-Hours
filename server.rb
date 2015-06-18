@@ -151,7 +151,7 @@ require 'pg'
 
 
   get '/' do
-    erb :landing
+    redirect '/log_in'
   end
 
   get '/log_in' do
@@ -164,6 +164,10 @@ require 'pg'
 
   get '/office_hours' do
     erb :index, locals: { days: days_of_the_week, times: times}
+  end
+
+  get '/temp' do
+    erb :landing
   end
 
   post '/users/log_in' do
