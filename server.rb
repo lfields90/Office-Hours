@@ -211,6 +211,7 @@ require 'pg'
     end
   end
 
+=begin
   post '/engineers/log_in' do
     user_name = params[:eng_name]
     pass = params[:eng_pass]
@@ -238,6 +239,7 @@ require 'pg'
         [user_name, first, last, pass]) }
     end
   end
+=end
 
   post '/office_hours' do
     user_id = session[:user_id]
