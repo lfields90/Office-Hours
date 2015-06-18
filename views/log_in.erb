@@ -3,23 +3,19 @@
     <table>
       <thead>
         <h3>Users</h3>
-        <tr>
-          <th>User:</th>
-          <th>Password:</th>
-        </tr>
       </thead>
       <tbody>
       <form action="/users/log_in" method="post">
         <tr>
-          <td><input type="text" name="user_name" value=""/></td>
-          <td><input type="password" name="user_pass" value=""/></td>
+          <td><input type="text" name="user_name" placeholder="User Name:"/></td>
+          <td><input type="password" name="user_pass" placeholder="Password:"/></td>
         </tr>
       </tbody>
-    </form>
   </table>
   <button class="button round" type="submit">
-    Log In
+    Submit
   </button>
+</form>
 </div>
 <!-- <table>
       <thead>

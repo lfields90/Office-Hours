@@ -59,6 +59,10 @@ a {
   margin-right: 10px;
 }
 
+.header_space {
+  margin-bottom: 40px;
+}
+
 .top-bar {
   height: 60px;
 }
@@ -82,4 +86,8 @@ img {
   position: relative;
   top: 15%;
   border: 2px, dashed, black;
+}
+
+table tr th, table tr td {
+  text-align: center;
 }
