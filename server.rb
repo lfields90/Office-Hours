@@ -143,6 +143,18 @@ require 'pg'
     session[:user_id] = user[0]['id'].to_i
   end
 
+  def signed_in?
+    return false if session[:user_id].nil?
+    true
+  end
+
+  def authenticate!
+    unless signed_in?
+      flash[:notice] = 'You need to sign in if you want to do that!'
+      redirect '/'
+    end
+  end
+
   def clear_all_tables
     populate_days_table
     populate_times_table
@@ -163,6 +175,7 @@ require 'pg'
   end
 
   get '/office_hours' do
+    authenticate!
     erb :index, locals: { days: days_of_the_week, times: times}
   end
 
@@ -261,4 +274,5 @@ require 'pg'
 
   post '/logout' do
     session[:user_id] = nil
+    redirect '/'
   end
