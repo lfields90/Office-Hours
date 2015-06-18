@@ -43,17 +43,20 @@ feature "user can sign up for office hours", %(
     end
 end
 
-feature "logged in user can view office hours", %(
+feature "logged in user can view  and select office hours", %(
   As a user
   I want to be able to see all available office hours
 
   Acceptance Criteria:
-  [X] Meetups should be listed alphabetically.
-  [X] Each meetup listed should link me to the show page for that meetup.
+  [X] Once logged in I should be taken to the office hours page.
+  [X] I should be able to select a time from the list and it should
+      refresh the page with my name in place of the time slot.
+  [X] If I attempt to select multiple time slots in a given week it should not be allowed.
+  [X] When I log out I should be taken back to the log in page.
   ) do
 
     scenario "" do
-      visit '/sign_up'
-      expect(page).to have_content("Sign Up")
+      visit '/office_hours'
+      expect(page).to have_content("Office Hours")
     end
 end
