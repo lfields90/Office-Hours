@@ -94,3 +94,22 @@ img {
 table tr th, table tr td {
   text-align: center;
 }
+
+.footer {
+  background-color: #333;
+  height: 30px;
+  position: fixed;
+  width: 100%;
+  bottom: 0;
+}
+
+.footer_info {
+  font-family: 'Quicksand', sans-serif;
+  font-size: 12px;
+  color: white;
+  list-style-type: none;
+  text-decoration: none;
+  float: left;
+  padding: 20px 0;
+  display: inline;
+}
