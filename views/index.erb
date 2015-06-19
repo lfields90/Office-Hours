@@ -1,4 +1,4 @@
-<div class="centered-content" id="oh_table">
+<div id="oh_table">
   <h1>Office Hours</h1>
   <table>
     <thead>
@@ -17,7 +17,7 @@
               <form action="/office_hours" method="post">
                 <input type="hidden" name="<%= day['id'] %>">
                 <input type="hidden" name="<%= time['id']%>">
-                <button class="button round" type="submit">
+                <button id="<%=day['id']%><%=time['id']%>" class="button round" type="submit">
                   <%= time['time_slot']%>
                 </button>
               </form>
@@ -25,9 +25,9 @@
             <% else %>
             <td>
               <form action="/deselect" method="post">
-              <button class="button round" class="taken" type="submit">
               <input type="hidden" name="<%= day['id'] %>">
               <input type="hidden" name="<%= time['id']%>">
+              <button id="<%=day['id']%><%=time['id']%>"class="button round" class="taken" type="submit">
                 <%= select_user(day, time) %>
               </button>
             </form>
