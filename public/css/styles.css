@@ -85,6 +85,7 @@ img {
   height: 50px;
   margin-top: 4px;
   margin-left: 2px;
+  color: #d7ceb2;
 }
 
 #oh_table {
@@ -103,21 +104,29 @@ footer {
   bottom: 0;
 }
 
-#footer_info {
+footer ul {
+  list-style-type: none;
+  margin: 0;
+  text-align: center;
+  text-decoration: none;
+  color: black;
+  list-style: none;
+}
 
+#footer_info {
   text-align: center;
   font-family: 'Quicksand', sans-serif;
   font-size: 12px;
-  color: white;
+  color: #d7ceb2;
 }
 
-#github {
+.social_media {
   float: left;
-  right: 4px;
-  margin: 4px, 4px, 4px, 4px;
+  padding-top: 3px;
+  padding-left: 5px;
+  text
 }
 
-#twitter {
-  float: left;
-  right: 4px;
+#words {
+  padding-top: 5px;
 }
