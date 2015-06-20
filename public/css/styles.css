@@ -104,7 +104,20 @@ footer {
 }
 
 #footer_info {
+
+  text-align: center;
   font-family: 'Quicksand', sans-serif;
   font-size: 12px;
   color: white;
+}
+
+#github {
+  float: left;
+  right: 4px;
+  margin: 4px, 4px, 4px, 4px;
+}
+
+#twitter {
+  float: left;
+  right: 4px;
 }
