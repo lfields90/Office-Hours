@@ -75,28 +75,23 @@ require 'pg'
   end
 
   def time_slot_available?(day, time)
-    flag = false
     time_slots.each do |time_slot|
       if time_slot["day_id"] == day["id"] && time_slot["times_id"] == time["id"]
-        if time_slot["user_id"].nil?
-          flag = true
-        end
+        return true if time_slot["user_id"].nil?
       end
     end
-    flag
+    false
   end
 
   def select_user(day, time)
     user_id = 0
-    string = ""
     time_slots.each do |time_slot|
       if time_slot["day_id"] == day["id"] && time_slot["times_id"] == time["id"]
         user_id += time_slot['user_id'].to_i
           name = db_connection { |conn| conn.exec("SELECT first_name FROM users WHERE id = #{user_id}") }.to_a[0]
-          string += "#{name['first_name']}"
+          return "#{name['first_name']}"
       end
     end
-    string
   end
 
   def this_is_your_slot(user, day, time)
@@ -206,13 +201,13 @@ require 'pg'
     pass = params[:user_pass]
     if
       user_exists?(user_name, pass)
-      redirect '/log_in'
     else
       db_connection { |conn| conn.exec("
         INSERT INTO users(user_name, first_name, last_name, password)
         VALUES ($1, $2, $3, $4)",
         [user_name, first, last, pass]) }
     end
+    redirect '/log_in'
   end
 
 =begin
