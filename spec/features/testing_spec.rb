@@ -78,7 +78,6 @@ feature "logged in user can view  and select office hours", %(
   ) do
 
     scenario "" do
-      binding.pry
       visit '/log_in'
       fill_in('user_name', :with => 'lfields90')
       fill_in('user_pass', :with => 'Password1')
